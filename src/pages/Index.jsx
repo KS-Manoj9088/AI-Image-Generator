@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,12 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sparkles, Zap, Palette, ArrowRight, Users, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import ImageGenerator from "../components/ImageGenerator/ImageGenerator";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true by default for convenience
   const [showAuth, setShowAuth] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -47,6 +48,10 @@ const Index = () => {
     });
   };
 
+  const handleStartCreating = () => {
+    navigate("/generate-images");
+  };
+
   if (isLoggedIn) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
@@ -65,8 +70,23 @@ const Index = () => {
           </Button>
         </div>
         
-        {/* Image Generator Component */}
-        <ImageGenerator />
+        {/* Welcome content for logged in users */}
+        <div className="flex items-center justify-center min-h-[80vh] p-4">
+          <div className="text-center text-white animate-fade-in">
+            <Sparkles className="w-20 h-20 mx-auto mb-6 text-yellow-400 animate-pulse" />
+            <h1 className="text-4xl font-bold mb-4">AI Image Generation Studio</h1>
+            <p className="text-xl text-blue-200 mb-8">Your creative workspace awaits!</p>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20">
+              <p className="text-lg mb-4">🎨 Ready to create amazing AI images</p>
+              <Button 
+                onClick={handleStartCreating}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+              >
+                Start Creating
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
